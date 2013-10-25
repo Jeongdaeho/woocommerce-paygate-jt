@@ -57,13 +57,13 @@ class WC_Gateway_PayGate extends WC_Payment_Gateway {
 	}
 
 	public function init_form_fields() {
-		global $openxpay;
+	    
 		$this->form_fields = array(
 			'enabled' => array(
 				'title' => __('Enable/Disable', 'wc_korea_pack'),
 				'type' => 'checkbox',
 				'label' => __('Enable', 'wc_korea_pack'),
-				'default' => 'yes'
+				'default' => 'no'
 			),
 			'access_key' => array(
 				'title' => __('상점 아이디', 'wc_korea_pack'),
@@ -76,7 +76,7 @@ class WC_Gateway_PayGate extends WC_Payment_Gateway {
 				'title' => __('Customer Message', 'wc_korea_pack'),
 				'type' => 'textarea',
 				'description' => __( 'This controls the description which the user sees during checkout.', 'wc_korea_pack' ),
-				'default' => ''
+				'default' => __( 'This controls the description which the user sees during checkout.', 'wc_korea_pack' ),
 			),
 			'api_key' => array(
 				'title' => __('API 인증값', 'wc_korea_pack'),
@@ -110,9 +110,10 @@ class WC_Gateway_PayGate extends WC_Payment_Gateway {
 	public function script() {	    
 	    if( WC_Gateway_PayGate::$is_script_already === true ) return;
         
-        WC_Gateway_PayGate::$is_script_already = true;
-        
 		if ($this->enabled == 'yes' && is_page( woocommerce_get_page_id( 'pay' ) ) == true) {
+
+            WC_Gateway_PayGate::$is_script_already = true;
+            
 		    $order_id  = isset( $_GET['order'] ) ? absint( $_GET['order'] ) : 0;
             $order_key = isset( $_GET['key'] ) ? woocommerce_clean( $_GET['key'] ) : '';
             

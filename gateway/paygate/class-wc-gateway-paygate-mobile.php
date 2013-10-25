@@ -54,7 +54,7 @@ class WC_Gateway_PayGate_mobile extends WC_Gateway_PayGate {
         return true;
     }
 
-	public function get_paygate_args( ) {
+    public function get_paygate_args( $order ) {
 		$args = array(
 			'goodcurrency'		=> 'WON',
 			'socialnumber' 		=> '',
