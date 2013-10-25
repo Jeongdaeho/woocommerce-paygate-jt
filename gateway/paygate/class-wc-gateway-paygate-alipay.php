@@ -16,14 +16,17 @@ class WC_Gateway_PayGate_alipay extends WC_Gateway_PayGate {
 	
 	function __construct(){
 		
-		$this->id 					= 'paygate-alipay';
+		$this->id 					= 'paygate_alipay';
 		$this->method 				= '106';
-		$this->class_name			= str_replace('-', '_', __CLASS__);
 		$this->icon 				= '';
 		$this->method_title 		= 'PayGate [alipay]';
 		$this->method_description	= 'paygate_alipay';
         $this->supported_currencies = array('RMB');
-		
+        $this->notify_url           = str_replace('https:', 'http:', add_query_arg( 'wc-api', strtolower(__CLASS__), home_url( '/' ) ) ) ;
+
+        // Payment listener/API hook
+        add_action( 'woocommerce_api_'.strtolower(__CLASS__), array( $this, 'process_payment_response' ) );
+
 		parent::__construct();
 	}
 

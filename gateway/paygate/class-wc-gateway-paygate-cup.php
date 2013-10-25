@@ -16,13 +16,16 @@ class WC_Gateway_PayGate_cup extends WC_Gateway_PayGate {
 	
 	function __construct(){
 		
-		$this->id 					= 'paygate-cup';
+		$this->id 					= 'paygate_cup';
 		$this->method 				= '105';
-		$this->class_name			= str_replace('-', '_', __CLASS__);
 		$this->icon 				= '';
 		$this->method_title 		= 'PayGate [cup]';
 		$this->method_description	= 'paygate_cup';
         $this->supported_currencies = array('RMB');
+        $this->notify_url           = str_replace('https:', 'http:', add_query_arg( 'wc-api', strtolower(__CLASS__), home_url( '/' ) ) ) ;
+
+        // Payment listener/API hook
+        add_action( 'woocommerce_api_'.strtolower(__CLASS__), array( $this, 'process_payment_response' ) );
         
 		parent::__construct();
 	}

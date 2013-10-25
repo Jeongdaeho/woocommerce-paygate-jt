@@ -4,11 +4,10 @@ function getPGIOresult() {
         var replyMsg = getPGIOElement('replyMsg');
         
 		if( replycode=='0000' ){
-			 document.PGIOForm.action = wckp.notify_url;
 			jQuery('#PGIOForm').submit();
 	  	} else {
 			//거래 실패 처리
-			 alert("[" + replyMsg + "]" + wckp.message_failure );
+			alert( replyMsg + "["+ replycode + "]" + wckp.message_failure );
 	    	window.location=woocommerce_params.cart_url;
 		}
 }

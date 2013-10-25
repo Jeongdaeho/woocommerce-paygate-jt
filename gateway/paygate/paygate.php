@@ -10,6 +10,10 @@ define( WCKP_PAYGATE_PLUGIN_URL,  plugin_dir_url ( __FILE__ ) );
 define( WCKP_PAYGATE_TEMPLATES_PATH,  trailingslashit( WCKP_PAYGATE_PLUGIN_DIR.'templates') );
 
 class WC_Gateway_PayGate extends WC_Payment_Gateway {
+    /*
+     * 스크립트 로드 여부
+     * */
+    public static $is_script_already = false;
 
 	function __construct() {
 		global $woocommerce;
@@ -23,21 +27,17 @@ class WC_Gateway_PayGate extends WC_Payment_Gateway {
 		$this->description 			= $this->get_option('description');
 		$this->order_description 	= $this->get_option('order_description');
 		$this->pg_skin 				= $this->get_option('pg_skin');
-		//$this->use_escrow			= $this->get_option('use_escrow');
+		$this->use_escrow			= $this->get_option('use_escrow');
 		
 		$this->access_key 			= $this->get_option('access_key');
 		$this->api_key 				= $this->get_option('api_key');
-		
-		$this->notify_url   		= add_query_arg( 'wc-api', strtolower($this->class_name), home_url( '/' ) ) ;
-		// 결제 모듈 ajax 사용이 가능해질 경우.
-		//$this->notify_url   		= admin_url( 'admin-ajax.php?action=wpkp_paygate_response' );
 		
 		// load form fields.
 		$this->init_form_fields();
 		
 		// load settings (via WC_Settings_API)
 		$this->init_settings();
-		
+        
 		// Logs
 		if ( 'true' == $this->debug )
 			$this->log = $woocommerce->logger();
@@ -52,13 +52,8 @@ class WC_Gateway_PayGate extends WC_Payment_Gateway {
 		add_action( 'woocommerce_receipt_'.$this->id, array( $this, 'receipt_page' ) );
 		
 		// 결제 모듈 ajax 사용이 가능해질 경우.
-		//add_action( 'wp_ajax_wpkp_paygate_response', array( $this, 'process_payment_response' ) );
+		//add_action( 'wp_ajax_wpkp_paygate_response'.$this->id, array( $this, 'process_payment_response' ) );
 		
-		// Payment listener/API hook
-		add_action( 'woocommerce_api_'.strtolower($this->class_name), array( $this, 'process_payment_response' ) );
-		
-		// add email fields
-		//add_filter('woocommerce_email_order_meta_keys', array( $this, 'filterWooEmailOrderMetaKeys' ) );
 	}
 
 	public function init_form_fields() {
@@ -98,13 +93,13 @@ class WC_Gateway_PayGate extends WC_Payment_Gateway {
 				'description' => __( 'paygate 에서 제공하는 스킨 입니다. <br/> 마음에 드는 스킨이 없을 경우 별도 css 를 추가 하시기 바랍니다.', 'wc_korea_pack'),
 				'desc_tip' => true,
 			),
-			/*'use_escrow' => array(
+			'use_escrow' => array(
 				'title' => __('에스크로 강제', 'wc_korea_pack'),
 				'type' => 'checkbox',
 				'default' => 'no',
 				'description' => __('서비스 옵션에서 매매보호 이용함으로 설정된 경우 10만원 이상 현금거래시 유저가 매매보호 거래를 선택할 수 있는 화면이 제시됩니다. ', 'wc_korea_pack'),
 				'desc_tip' => true,
-			),*/
+			),
 		);
 	}
 
@@ -112,28 +107,30 @@ class WC_Gateway_PayGate extends WC_Payment_Gateway {
 	 * 	script
 	 * */
 
-	public function script() {
-		
-		$order_id  = isset( $_GET['order'] ) ? absint( $_GET['order'] ) : 0;
-		$order_key = isset( $_GET['key'] ) ? woocommerce_clean( $_GET['key'] ) : '';
-		
-		$order = new WC_Order( $order_id );
-		
-		$thanks_url = get_permalink( woocommerce_get_page_id( 'thanks' ) );
-		$thanks_url = add_query_arg( 'key', $order->order_key, add_query_arg( 'order', $order->id, $thanks_url ) );
-
+	public function script() {	    
+	    if( WC_Gateway_PayGate::$is_script_already === true ) return;
+        
+        WC_Gateway_PayGate::$is_script_already = true;
+        
 		if ($this->enabled == 'yes' && is_page( woocommerce_get_page_id( 'pay' ) ) == true) {
-			wp_enqueue_script( 'wc_paygate_remote', 'https://api.paygate.net/ajax/common/OpenPayAPI.js',null, null,true);
+		    $order_id  = isset( $_GET['order'] ) ? absint( $_GET['order'] ) : 0;
+            $order_key = isset( $_GET['key'] ) ? woocommerce_clean( $_GET['key'] ) : '';
+            
+            $order = new WC_Order( $order_id );
+            
+            $thanks_url = get_permalink( woocommerce_get_page_id( 'thanks' ) );
+            $thanks_url = add_query_arg( 'key', $order->order_key, add_query_arg( 'order', $order->id, $thanks_url ) );
+            
+			//wp_enqueue_script( 'wc_paygate_remote', 'https://api.paygate.net/ajax/common/OpenPayAPI.js',null, null,true);
 			#ie 7 지원
-			//echo '<script language="javascript" src="https://api.paygate.net/ajax/common/OpenPayAPI.js" charset="utf-8">';
+			echo '<script language="javascript" src="https://api.paygate.net/ajax/common/OpenPayAPI.js" charset="utf-8"></script>';
 
 			wp_enqueue_script( 'wc_paygate_main', WCKP_PAYGATE_PLUGIN_URL.'assets/paygate.js', array('jquery'), wc_korea_pack()->version, true);
 			wp_localize_script( 'wc_paygate_main', 'wckp', array(
-				'notify_url' => add_query_arg('order', $order->id, add_query_arg( 'key', $order->order_key, $this->notify_url ) ),
 				'thanks_url' => $thanks_url,
 				'message_failure' => __('결제가 실패했습니다. 다시 이용해 주세요', 'wc_korea_pack')
 			) ); 	
-			wp_register_style( 'wc_paygate_main', WCKP_PAYGATE_PLUGIN_URL.'assets/style.css' );
+			wp_register_style( 'wc_paygate_main', WCKP_PAYGATE_PLUGIN_URL.'assets/style.css', '', wc_korea_pack()->version);
 			wp_enqueue_style( 'wc_paygate_main' );
 		}
 	}
@@ -147,84 +144,11 @@ class WC_Gateway_PayGate extends WC_Payment_Gateway {
 	 * */
 	 
 	public function admin_options() {
-		require $this->templates_path . 'admin-woocommerce-' . $this->id . '.php';
-	}
-
-	/* *
-	 * 	paygate 결제 요청 페이지
-	 * */
-	 
-	public function receipt_page( $order_id ) {
-		global $woocommerce;
-		
-		$order = new WC_Order( $order_id );
-		
-		$item_names = array();
-
-		if ( sizeof( $order->get_items() ) > 0 )
-			foreach ( $order->get_items() as $item )
-				if ( $item['qty'] )
-					$item_names[] = $item['name'] . ' x ' . $item['qty'];
-		
-		//echo '<p>'.__( '주문해 주셔서 감사합니다.(paygate) ', 'wc_korea_pack' ).'</p>';
-
-		$paygate_args = $this->get_paygate_args( $order );
-		$paygate_args = array_merge( array(
-				'charset'		=> 'UTF-8',
-				'mid' 		=> $this->access_key,
-				'paymethod' 	=> $this->method,
-				'goodname' 	=> sprintf( __( 'Order %s' , 'woocommerce'), $order->get_order_number() ) . " - " . implode( ', ', $item_names ),
-				'unitprice' 	=> $order->get_total() + $order->get_order_discount(),
-				'replycode' 	=> '',
-				'replyMsg'	=> '',
-				'mb_serial_no' => $order_id,
-				'kindcss'		=> $this->pg_skin
-			), $paygate_args 
-		);
-
-		if ( 'true' == $this->debug ) {
-			$paygate_args['unitprice'] = 100;
-		}
-		
-		if( $this->api_key ){
-			$paygate_args['hashresult'] = '';
-			$paygate_args['tid'] = '';
-		}
-		
-		/*if( $this->use_escrow == 'yes' ){
-			$paygate_args['loanSt'] = 'escrow';
-		}*/
-		
-		$paygate_args_array = array();
-
-		foreach( $paygate_args as $key => $value ) {
-			$paygate_args_array[] = '<input type="hidden" name="'.esc_attr( $key ).'" id="'.esc_attr( $key ).'" value="'.esc_attr( $value ).'" />';
-		}
-		
-		$output = '
-			<div id="PGIOscreen"></div>
-			<form method="post" name ="PGIOForm" id="PGIOForm">' .$woocommerce->nonce_field('process_payment_response', true, false). implode( '', $paygate_args_array) . '
-			<a class="button alt" href="#" id="submit_paygate_payment_form">' . __( '결제', 'wc_korea_pack' ) . '</a>
-			</form>
-		';
-		
-		echo $output;
-	}
-
-	/**
-	 * add the successful transaction ID to WooCommerce order emails
-	 * @param array $keys
-	 * @return array
-	 */
-	public function filterWooEmailOrderMetaKeys($keys) {
-
-		//$keys[] = 'Transaction ID';
-
-		return $keys;
+		require $this->templates_path . 'admin-woocommerce-paygate.php';
 	}
 
 	public function validate_fields() {
-		return true;
+		return parent::is_available();
 	}
 
 	public function process_payment( $order_id ) {
@@ -234,9 +158,68 @@ class WC_Gateway_PayGate extends WC_Payment_Gateway {
 		return array(
 			'result' 	=> 'success',
 			'redirect'	=> add_query_arg('order', $order->id, add_query_arg( 'key', $order->order_key, get_permalink(woocommerce_get_page_id('pay' ))))
-		);
-		
+		);		
 	}
+
+    /* *
+     *  paygate 결제 요청 페이지
+     * */
+    public function receipt_page( $order_id ) {
+        global $woocommerce;
+        
+        $order = new WC_Order( $order_id );
+        
+        $item_names = array();
+
+        if ( sizeof( $order->get_items() ) > 0 )
+            foreach ( $order->get_items() as $item )
+                if ( $item['qty'] )
+                    $item_names[] = $item['name'] . ' x ' . $item['qty'];
+
+        $paygate_args = $this->get_paygate_args( $order );
+        $paygate_args = array_merge( array(
+                'charset'       => 'UTF-8',
+                'mid'           => $this->access_key,
+                'paymethod'     => $this->method,
+                'goodname'      => sprintf( __( 'Order %s' , 'woocommerce'), $order->get_order_number() ) . " - " . implode( ', ', $item_names ),
+                'unitprice'     => (int)$order->get_total(),
+                'replycode'     => '',
+                'replyMsg'      => '',
+                'mb_serial_no'  => $order_id,
+                'kindcss'       => $this->pg_skin
+            ), $paygate_args 
+        );
+
+        if ( 'true' == $this->debug ) {
+            $paygate_args['unitprice'] = 100;
+        }
+        
+        if( $this->api_key ){
+            $paygate_args['hashresult'] = '';
+            $paygate_args['tid'] = '';
+        }
+        
+        $paygate_args['loanSt'] = '';
+        if( $this->use_escrow == 'yes' ){
+            $paygate_args['loanSt'] = 'escrow';
+        }
+        
+        $paygate_args_array = array();
+
+        foreach( $paygate_args as $key => $value ) {
+            $paygate_args_array[] = '<input type="hidden" name="'.esc_attr( $key ).'" id="'.esc_attr( $key ).'" value="'.esc_attr( $value ).'" />';
+        }
+
+        $notify_url= add_query_arg('order', $order->id, add_query_arg( 'key', $order->order_key, $this->notify_url ) );
+        $output = '
+            <div id="PGIOscreen" ></div>
+            <form method="post" name ="PGIOForm" id="PGIOForm" action="'.$notify_url.'">' .$woocommerce->nonce_field('process_payment_response', true, false). implode( '', $paygate_args_array) . '
+            <a class="button alt" href="#" id="submit_paygate_payment_form">' . __( '결제', 'wc_korea_pack' ) . '</a>
+            </form>
+        ';
+        
+        echo $output;
+    }
 
 	public function process_payment_response() {
 		global $woocommerce;
@@ -273,21 +256,34 @@ class WC_Gateway_PayGate extends WC_Payment_Gateway {
 
 		if ( $woocommerce->error_count() == 0 ) {
 			
-			/* 결제 모듈 ajax 사용이 가능해질 경우.
-			echo '<!--WCKP_START-->' . json_encode(
-				array(
-					'result'	=> 'success'
-				)
-			) . '<!--WCKP_END-->';*/
-			
+            /* 결제 모듈 ajax 사용이 가능해질 경우.
+            echo '<!--WCKP_START-->' . json_encode(
+                array(
+                    'result'    => 'success'
+                )
+            ) . '<!--WCKP_END-->';*/
+			wp_redirect( $this->get_return_url( $order ) );
+
 		} else {
+            $erors = $woocommerce->get_errors();
+            $messages = $woocommerce->get_messages();
+            
+            if ( 'true' == $this->debug ) {
+                foreach ( $erors as $error ){
+                    $this->log->add( $this->id, __FUNCTION__ . wp_kses_post( $error ) );
+                     
+                }
+            }
+
+            echo '<script>
+                alert("'.implode(', ', $messages).'");
+                window.location="'.get_permalink(woocommerce_get_page_id( 'cart' )).';
+            </script>'; 
 			
 			/* 결제 모듈 ajax 사용이 가능해질 경우.
-			ob_start();
 			$woocommerce->show_messages();
-			$messages = ob_get_clean();
-			
-			echo '<!--WCKP_START-->' . json_encode(
+            $messages = ob_get_clean();
+            echo '<!--WCKP_START-->' . json_encode(
 				array(
 					'result'	=> 'failure',
 					'messages' 	=> $messages,
@@ -295,11 +291,7 @@ class WC_Gateway_PayGate extends WC_Payment_Gateway {
 			) . '<!--WCKP_END-->';*/
 			
 		}
-		
-		wp_redirect( $this->get_return_url( $order ) );
-
-		
-		die();
+        die();
 	}
 	
 	//결제검증

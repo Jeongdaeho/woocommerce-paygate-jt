@@ -16,14 +16,38 @@ class WC_Gateway_PayGate_card extends WC_Gateway_PayGate {
 	
 	function __construct(){
 		
-		$this->id 					= 'paygate-card';
+		$this->id 					= 'paygate_card';
 		$this->method 				= 'card';
-		$this->class_name			= str_replace('-', '_', __CLASS__);
 		$this->icon 				= '';
 		$this->method_title 		= 'PayGate [Card]';
 		$this->method_description	= 'paygate_card';
-        $this->supported_currencies = array('KRW', 'USD');
-        		
+        $this->notify_url           = str_replace('https:', 'http:', add_query_arg( 'wc-api', strtolower(__CLASS__), home_url( '/' ) ) ) ;
+
+        // Payment listener/API hook
+        add_action( 'woocommerce_api_'.strtolower(__CLASS__), array( $this, 'process_payment_response' ) );
+        
+        add_filter('wc_korea_pack_paygate_card_args', array($this, 'paygate_card_args') );
+        $this->paygate_currencies_args    = apply_filters('wc_korea_pack_paygate_currencies_args_card', array(
+            'KRW' => array( 
+                    'goodcurrency' => 'WON',
+                    'langcode' => 'KR'
+                ),
+            'USD' => array(
+                    'goodcurrency' => 'USD',
+                    'langcode' => 'US'
+            ),
+            'RMB' => array(
+                'goodcurrency' => 'CNY',
+                'langcode' => 'CN',
+            ),
+            'JPY' => array(
+                'goodcurrency' => 'JPY',
+                'langcode' => 'JP',
+            ),
+        ));
+        
+        $this->supported_currencies = array_keys( $this->paygate_currencies_args );
+        
 		parent::__construct();
 	}
 
@@ -43,7 +67,7 @@ class WC_Gateway_PayGate_card extends WC_Gateway_PayGate {
 
     public function is_valid_for_use() {
 
-        if ( !in_array( get_woocommerce_currency(), apply_filters( 'wc_korea_pack_supported_currencies_card', $this->supported_currencies ) ) ) {
+        if ( !in_array( get_woocommerce_currency(), $this->supported_currencies ) ) {
             return false;
         }
         
@@ -65,9 +89,21 @@ class WC_Gateway_PayGate_card extends WC_Gateway_PayGate {
 			'cardauthcode' 		=> '',
 		);
 
-        $args = apply_filterrs('wc_korea_pack_paygate_args', $args);
+        $args = apply_filters('wc_korea_pack_paygate_card_args', $args, 1);
 		
 		return $args;
 	}
+    
+    public function paygate_card_args( $args ) {
+        
+        if( $paygate_currency = $this->paygate_currencies_args[ $args['goodcurrency'] ] ) {
+            
+            $args['langcode']       = $paygate_currency['langcode'];
+            $args['goodcurrency']   = $paygate_currency['goodcurrency'];
+        }
+        
+        return $args;
+    }
+    
 }
 endif;

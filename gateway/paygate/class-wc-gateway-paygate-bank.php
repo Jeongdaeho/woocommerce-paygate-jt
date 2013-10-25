@@ -16,13 +16,16 @@ class WC_Gateway_PayGate_bank extends WC_Gateway_PayGate {
         
     function __construct(){
                 
-        $this->id					= 'paygate-bank';
+        $this->id					= 'paygate_bank';
         $this->method              	= '4';
-        $this->class_name			= str_replace('-', '_', __CLASS__);
         $this->icon                 = '';
         $this->method_title			= 'PayGate ['.__('Realtime Bank Transfer', 'wc_korea_pack').']';
         $this->method_description   = 'paygate_bank';
         $this->supported_currencies = array('KRW');
+        $this->notify_url           = str_replace('https:', 'http:', add_query_arg( 'wc-api', strtolower(__CLASS__), home_url( '/' ) ) ) ;
+
+        // Payment listener/API hook
+        add_action( 'woocommerce_api_'.strtolower(__CLASS__), array( $this, 'process_payment_response' ) );
     
         parent::__construct();
     }
@@ -35,7 +38,7 @@ class WC_Gateway_PayGate_bank extends WC_Gateway_PayGate {
                'title' => __('Title', 'wc_korea_pack'),
                'type' => 'text',
                'description' => __('This controls the title which the user sees during checkout.', 'wc_korea_pack'),
-               'default' => __('Realtime Bank Transfer', 'wc_korea_pack'),
+               'default' => __('실시간 계좌이체 [ActiveX]', 'wc_korea_pack'),
                'desc_tip' => true,
             ),
         ));
@@ -52,8 +55,9 @@ class WC_Gateway_PayGate_bank extends WC_Gateway_PayGate {
 
     public function get_paygate_args( ) {
         $args = array(
+            'goodcurrency'  => 'WON',
             'socialnumber'	=> '',
-            'receipttoname'	=> '',
+            'receipttoname'	=> $_POST['billing_last_name'].$_POST['billing_first_name'],
         );
 
         return $args;

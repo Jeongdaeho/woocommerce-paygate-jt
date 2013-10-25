@@ -17,13 +17,16 @@ class WC_Gateway_PayGate_mobile extends WC_Gateway_PayGate {
 	
 	function __construct(){
 		
-		$this->id 					= 'paygate-mobile';
+		$this->id 					= 'paygate_mobile';
 		$this->method 				= '801';
-		$this->class_name			= str_replace('-', '_', __CLASS__);
 		$this->icon 				= '';
 		$this->method_title 		= 'PayGate [mobile]';
 		$this->method_description	= 'paygate_mobile';
         $this->supported_currencies = array('KRW');
+        $this->notify_url           = str_replace('https:', 'http:', add_query_arg( 'wc-api', strtolower(__CLASS__), home_url( '/' ) ) ) ;
+
+        // Payment listener/API hook
+        add_action( 'woocommerce_api_'.strtolower(__CLASS__), array( $this, 'process_payment_response' ) );
 		
 		parent::__construct();
 	}

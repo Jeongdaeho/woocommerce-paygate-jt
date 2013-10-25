@@ -17,14 +17,17 @@ class WC_Gateway_PayGate_ars extends WC_Gateway_PayGate {
 	
 	function __construct(){
 		
-		$this->id 					= 'paygate-ars';
+		$this->id 					= 'paygate_ars';
 		$this->method 				= '803';
-		$this->class_name			= str_replace('-', '_', __CLASS__);
 		$this->icon 				= '';
 		$this->method_title 		= 'PayGate [ars]';
 		$this->method_description	= 'paygate_ars';
 		$this->supported_currencies = array('KRW');
-        
+        $this->notify_url           = str_replace('https:', 'http:', add_query_arg( 'wc-api', strtolower(__CLASS__), home_url( '/' ) ) ) ;
+
+        // Payment listener/API hook
+        add_action( 'woocommerce_api_'.strtolower(__CLASS__), array( $this, 'process_payment_response' ) );
+
 		parent::__construct();
 	}
 
