@@ -30,6 +30,11 @@ Woocommerce-paygate-jt 플러그인은
 
 제작된 플러그인이 한국 워드프레스 발전에 도움이 되길 기원합니다.
 
+= GET INVOLVED =
+
+[woocommerce-paygate-jt GitHub Repository](https://github.com/Jeongdaeho/woocommerce-paygate-jt).
+
+
 == Installation ==
 
 플러그인을 설치순서
@@ -59,3 +64,29 @@ Woocommerce-paygate-jt 플러그인은
 = 0.3.1 =
 스크린 샷 추가
 Installation 설명 추가
+
+= 0.4 =
+* 설정관련 변수명이 바뀌었기 때문에 기존 설정과 호환이 되지 않습니다. 설정값을 다시 입력 해주세요
+* script 중복 적용 되는 버그 수정
+* 쿠폰 할인 금액이 적용 되지 않는 버그 수정
+* 실시간 계좌이체가 되지 않던 버그 수정( 실시간 계좌이체는 ActiveX 방식이며 IE 에서만 결제 가능)
+* 각 결제별 허용 화폐적용
+* 관리자 템플렛 파일을 하나로 통합
+* 카드 결제의 지원 화폐를 기본 4가지로 구성 (KRW, USD, RMB, JPY)
+* 카드 결제의 추가 지원 화폐를 설정할 수 있습니다.
+* 실시간 계좌이체 결제를 위한 상품명 정보의 특수문자 제거
+ex)
+function wc_korea_pack_paygate_currencies_args_card( $card_args ){
+    // woocommerce 에 정의된 화폐이름이 EUR 일경우
+    $card_args['EUR'] = array(
+        'goodcurrency' => 'EUR',    //paygate 에서 대응 되는 화폐의 코드값
+        'langcode' => 'US'          //paygate 에서 지원하는 언어 코드값
+    );
+    return $card_args;
+}
+//필터 추가
+add_filter('wc_korea_pack_paygate_currencies_args_card', 'wc_korea_pack_paygate_currencies_args_card');
+
+
+테마의 functions.php 파일에 추가 하시면 적용됩니다.
+

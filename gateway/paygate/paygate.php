@@ -177,12 +177,15 @@ class WC_Gateway_PayGate extends WC_Payment_Gateway {
                 if ( $item['qty'] )
                     $item_names[] = $item['name'] . ' x ' . $item['qty'];
 
+        $goodname = sprintf( __( 'Order %s' , 'woocommerce'), $order->get_order_number() ) . "  " . implode( ', ', $item_names );
+        $goodname = preg_replace ("/[ #\&\+\-%@=\/\\\:;,\.'\"\^`~\_|\!\?\*$#<>()\[\]\{\}]/i", "",  $goodname);
+        
         $paygate_args = $this->get_paygate_args( $order );
         $paygate_args = array_merge( array(
                 'charset'       => 'UTF-8',
                 'mid'           => $this->access_key,
                 'paymethod'     => $this->method,
-                'goodname'      => sprintf( __( 'Order %s' , 'woocommerce'), $order->get_order_number() ) . " - " . implode( ', ', $item_names ),
+                'goodname'      => $goodname,
                 'unitprice'     => (int)$order->get_total(),
                 'replycode'     => '',
                 'replyMsg'      => '',

@@ -24,8 +24,8 @@ class WC_Gateway_PayGate_bank extends WC_Gateway_PayGate {
         $this->supported_currencies = array('KRW');
         $this->notify_url           = str_replace('https:', 'http:', add_query_arg( 'wc-api', strtolower(__CLASS__), home_url( '/' ) ) ) ;
         
-        global $is_IE;
-        if ( ! $is_IE ) $this->enabled = false;
+        //global $is_IE; IE 에서만 노출을 원하는 경우
+        //if ( ! $is_IE ) $this->enabled = false;
 
         // Payment listener/API hook
         add_action( 'woocommerce_api_'.strtolower(__CLASS__), array( $this, 'process_payment_response' ) );

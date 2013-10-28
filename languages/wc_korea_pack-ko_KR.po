@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wc_korea_pack\n"
-"POT-Creation-Date: 2013-10-25 12:17+0900\n"
-"PO-Revision-Date: 2013-10-25 12:17+0900\n"
+"POT-Creation-Date: 2013-10-28 15:19+0900\n"
+"PO-Revision-Date: 2013-10-28 15:20+0900\n"
 "Last-Translator: 정대호 <ohead@studio-jt.co.kr>\n"
 "Language-Team: studio-jt <support@studio-jt.co.kr>\n"
 "MIME-Version: 1.0\n"
@@ -12,204 +12,204 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-SearchPath-0: H:\\webroot\\shiled-line\\www\\wp-content\\plugins"
-"\\woocommerce-paygate-jt\n"
+"X-Poedit-SearchPath-0: ..\n"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-alipay.php:38
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-ars.php:39
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-bank.php:38
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-card.php:59
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-cup.php:38
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-mobile.php:39
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-phonebill.php:39
+#: ../gateway/paygate/class-wc-gateway-paygate-alipay.php:38
+#: ../gateway/paygate/class-wc-gateway-paygate-ars.php:39
+#: ../gateway/paygate/class-wc-gateway-paygate-bank.php:41
+#: ../gateway/paygate/class-wc-gateway-paygate-card.php:59
+#: ../gateway/paygate/class-wc-gateway-paygate-cup.php:38
+#: ../gateway/paygate/class-wc-gateway-paygate-mobile.php:39
+#: ../gateway/paygate/class-wc-gateway-paygate-phonebill.php:39
 msgid "Title"
 msgstr "제목"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-alipay.php:40
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-ars.php:41
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-bank.php:40
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-card.php:61
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-cup.php:40
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-mobile.php:41
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-phonebill.php:41
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/shipping/condition-on-free.php:53
+#: ../gateway/paygate/class-wc-gateway-paygate-alipay.php:40
+#: ../gateway/paygate/class-wc-gateway-paygate-ars.php:41
+#: ../gateway/paygate/class-wc-gateway-paygate-bank.php:43
+#: ../gateway/paygate/class-wc-gateway-paygate-card.php:61
+#: ../gateway/paygate/class-wc-gateway-paygate-cup.php:40
+#: ../gateway/paygate/class-wc-gateway-paygate-mobile.php:41
+#: ../gateway/paygate/class-wc-gateway-paygate-phonebill.php:41
+#: ../shipping/condition-on-free.php:53
 msgid "This controls the title which the user sees during checkout."
 msgstr "이것은 사용자가 결제시 보는 제목을 제어합니다."
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-alipay.php:41
+#: ../gateway/paygate/class-wc-gateway-paygate-alipay.php:41
 msgid "Alipay Payment"
 msgstr "Alipay 결제"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-ars.php:42
+#: ../gateway/paygate/class-wc-gateway-paygate-ars.php:42
 msgid "ARS Payment"
 msgstr "ARS 결제"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-bank.php:22
+#: ../gateway/paygate/class-wc-gateway-paygate-bank.php:22
 msgid "Realtime Bank Transfer"
 msgstr "실시간 계좌이체"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-bank.php:41
+#: ../gateway/paygate/class-wc-gateway-paygate-bank.php:44
 msgid "실시간 계좌이체 [ActiveX]"
 msgstr ""
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-card.php:62
+#: ../gateway/paygate/class-wc-gateway-paygate-card.php:62
 msgid "Card Payment"
 msgstr "카드 결제"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-cup.php:41
+#: ../gateway/paygate/class-wc-gateway-paygate-cup.php:41
 msgid "cup Payment"
 msgstr "cup 결제"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-mobile.php:42
+#: ../gateway/paygate/class-wc-gateway-paygate-mobile.php:42
 msgid "Mobile Payment"
 msgstr "핸드폰 소액 결제"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/class-wc-gateway-paygate-phonebill.php:42
+#: ../gateway/paygate/class-wc-gateway-paygate-phonebill.php:42
 msgid "Phonebill Payment"
 msgstr "폰빌 결제"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/paygate.php:63
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/shipping/condition-on-free.php:45
+#: ../gateway/paygate/paygate.php:63 ../shipping/condition-on-free.php:45
 msgid "Enable/Disable"
 msgstr "활성화/비활성화"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/paygate.php:65
+#: ../gateway/paygate/paygate.php:65
 msgid "Enable"
 msgstr "활성화"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/paygate.php:69
+#: ../gateway/paygate/paygate.php:69
 msgid "상점 아이디"
 msgstr ""
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/paygate.php:71
+#: ../gateway/paygate/paygate.php:71
 msgid ""
 "상점아이디 paygate로 부터 발급받으신 상점 아이디(로그인 아이디)를 입력하세요)"
 msgstr ""
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/paygate.php:76
+#: ../gateway/paygate/paygate.php:76
 msgid "Customer Message"
 msgstr "설명"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/paygate.php:78
+#: ../gateway/paygate/paygate.php:78 ../gateway/paygate/paygate.php:79
 msgid "This controls the description which the user sees during checkout."
 msgstr "이것은 사용자가 결제시 보게될 설명을 제어합니다."
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/paygate.php:82
+#: ../gateway/paygate/paygate.php:82
 msgid "API 인증값"
 msgstr ""
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/paygate.php:84
+#: ../gateway/paygate/paygate.php:84
 msgid ""
 "상점관리자 로그인후 맴버관리 > 자기정보관리 > API인증값 <br/> <a href="
 "\"https://km.paygate.net/display/CS/Transaction+Hash+Verification"
 "%28SHA-256%29\">참조</a>"
 msgstr ""
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/paygate.php:89
+#: ../gateway/paygate/paygate.php:89
 msgid "결제창 스킨"
 msgstr ""
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/paygate.php:93
+#: ../gateway/paygate/paygate.php:93
 msgid ""
 "paygate 에서 제공하는 스킨 입니다. <br/> 마음에 드는 스킨이 없을 경우 별도 "
 "css 를 추가 하시기 바랍니다."
 msgstr ""
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/paygate.php:97
+#: ../gateway/paygate/paygate.php:97
 msgid "에스크로 강제"
 msgstr ""
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/paygate.php:100
+#: ../gateway/paygate/paygate.php:100
 msgid ""
 "서비스 옵션에서 매매보호 이용함으로 설정된 경우 10만원 이상 현금거래시 유저"
 "가 매매보호 거래를 선택할 수 있는 화면이 제시됩니다. "
 msgstr ""
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/paygate.php:131
+#: ../gateway/paygate/paygate.php:132
 msgid "결제가 실패했습니다. 다시 이용해 주세요"
 msgstr ""
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/paygate.php:184
+#: ../gateway/paygate/paygate.php:185
 #, php-format
 msgid "Order %s"
 msgstr "주문 %s"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/paygate.php:217
+#: ../gateway/paygate/paygate.php:218
 msgid "결제"
 msgstr ""
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/paygate.php:238
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/paygate.php:241
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/paygate.php:253
+#: ../gateway/paygate/paygate.php:239 ../gateway/paygate/paygate.php:242
+#: ../gateway/paygate/paygate.php:254
 msgid "주문번호 검증 실패"
 msgstr ""
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/paygate.php:313
+#: ../gateway/paygate/paygate.php:314
 msgid "비정상적인 결제 시도"
 msgstr ""
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/templates/admin-woocommerce-paygate.php:5
+#: ../gateway/paygate/templates/admin-woocommerce-paygate.php:5
 msgid "Get started PayGate"
 msgstr "페이게이트 시작"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/templates/admin-woocommerce-paygate.php:7
+#: ../gateway/paygate/templates/admin-woocommerce-paygate.php:7
 msgid "Paygate 상점관리자 "
 msgstr ""
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/templates/admin-woocommerce-paygate.php:10
+#: ../gateway/paygate/templates/admin-woocommerce-paygate.php:10
 msgid "Join"
 msgstr "가입"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/templates/admin-woocommerce-paygate.php:16
+#: ../gateway/paygate/templates/admin-woocommerce-paygate.php:16
 msgid "Gateway Disabled"
 msgstr "결제 사용"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/gateway/paygate/templates/admin-woocommerce-paygate.php:16
+#: ../gateway/paygate/templates/admin-woocommerce-paygate.php:16
 msgid "This Gateway does not support your store currency."
 msgstr "이 결제는 상점의 통화를 지원하지 않습니다."
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/shipping/condition-on-free.php:11
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/shipping/condition-on-free.php:12
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/shipping/condition-on-free.php:54
+#: ../shipping/condition-on-free.php:11 ../shipping/condition-on-free.php:12
+#: ../shipping/condition-on-free.php:54
 msgid "조건부 무료"
 msgstr ""
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/shipping/condition-on-free.php:47
+#: ../shipping/condition-on-free.php:47
 msgid "조건부 무료 배송 활성화"
 msgstr ""
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/shipping/condition-on-free.php:51
+#: ../shipping/condition-on-free.php:51
+#, fuzzy
 msgid "Method Title"
-msgstr ""
+msgstr "방법 제목"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/shipping/condition-on-free.php:58
+#: ../shipping/condition-on-free.php:58
+#, fuzzy
 msgid "Method availability"
-msgstr ""
+msgstr "방법 가능성"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/shipping/condition-on-free.php:63
+#: ../shipping/condition-on-free.php:63
+#, fuzzy
 msgid "All allowed countries"
-msgstr ""
+msgstr "모든 허용된 국가"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/shipping/condition-on-free.php:64
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/shipping/condition-on-free.php:68
+#: ../shipping/condition-on-free.php:64 ../shipping/condition-on-free.php:68
+#, fuzzy
 msgid "Specific Countries"
-msgstr ""
+msgstr "특정 국가"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/shipping/condition-on-free.php:76
+#: ../shipping/condition-on-free.php:76
+#, fuzzy
 msgid "Delivery Fee"
-msgstr ""
+msgstr "배달 수수료"
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/shipping/condition-on-free.php:82
+#: ../shipping/condition-on-free.php:82
 msgid ""
 "조건부 무료 배송에 얼마의 배송료를 원하시나요? 무료를 선택하면 무시하세요. 비"
 "활성화 하려면 비워두세요."
 msgstr ""
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/shipping/condition-on-free.php:88
+#: ../shipping/condition-on-free.php:88
 msgid "무료 배송 최소 금액"
 msgstr ""
 
-#: H:\webroot\shiled-line\www\wp-content\plugins\woocommerce-paygate-jt/shipping/condition-on-free.php:94
+#: ../shipping/condition-on-free.php:94
 msgid "설정한 금액보다 주문금액이 클경우 배송료는 무료입니다."
 msgstr ""
 
