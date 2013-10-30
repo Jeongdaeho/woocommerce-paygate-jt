@@ -28,7 +28,7 @@ Woocommerce-paygate-jt 플러그인은
 
 
 
-제작된 플러그인이 한국 워드프레스 발전에 도움이 되길 기원합니다.
+제작된 플러그인이 한국 워드프레스 발전에 도움이 되길 기원합니다.   by <a href="http://studio-jt.co.kr" target="_blank">STUDIO-JT</a>
 
 = GET INVOLVED =
 
@@ -62,8 +62,8 @@ Woocommerce-paygate-jt 플러그인은
 * 배송 클레스 추가
 
 = 0.3.1 =
-스크린 샷 추가
-Installation 설명 추가
+*스크린 샷 추가
+*Installation 설명 추가
 
 = 0.4 =
 * 설정관련 변수명이 바뀌었기 때문에 기존 설정과 호환이 되지 않습니다. 설정값을 다시 입력 해주세요
@@ -73,20 +73,14 @@ Installation 설명 추가
 * 각 결제별 허용 화폐적용
 * 관리자 템플렛 파일을 하나로 통합
 * 카드 결제의 지원 화폐를 기본 4가지로 구성 (KRW, USD, RMB, JPY)
-* 카드 결제의 추가 지원 화폐를 설정할 수 있습니다.
 * 실시간 계좌이체 결제를 위한 상품명 정보의 특수문자 제거
-ex)
-function wc_korea_pack_paygate_currencies_args_card( $card_args ){
-    // woocommerce 에 정의된 화폐이름이 EUR 일경우
-    $card_args['EUR'] = array(
-        'goodcurrency' => 'EUR',    //paygate 에서 대응 되는 화폐의 코드값
-        'langcode' => 'US'          //paygate 에서 지원하는 언어 코드값
-    );
-    return $card_args;
-}
-//필터 추가
-add_filter('wc_korea_pack_paygate_currencies_args_card', 'wc_korea_pack_paygate_currencies_args_card');
+* 카드 결제의 추가 지원 화폐를 설정할 수 있습니다. 
+
+add_filter('wc_korea_pack_paygate_currencies_args_card', 'your_function');
 
 
-테마의 functions.php 파일에 추가 하시면 적용됩니다.
-
+= 0.5 =
+* 관리자 패널이 추가 되었습니다. 관리자 패널은 우커머스 설정 페이지에 탭형식으로 추가 되었습니다.
+* 이제 회사명과 국가 코드를 관리자 패널에서 활성화, 비활성화 할 수 있습니다.
+* 한국 우편 번호 검색을 지원합니다. 관리자 패널에서 활성화, 비활성화 할 수 있습니다.
+* 한국 우편 번호 db 가 추가 되었습니다. 우편번호는 txt 파일형태로 제공됩니다. (2013.10.08일자 우체국 제공DB    가공 by studio-jt)
