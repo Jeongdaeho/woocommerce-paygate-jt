@@ -101,7 +101,6 @@ class WC_Korea_Pack_options {
 
     function zip_code_field( $blank, $key, $args, $value ) {
         if ( $args['required'] ) {
-            $args['class'][] = 'validate-required';
             $required = ' <abbr class="required" title="' . esc_attr__( 'required', 'wc_korea_pack'  ) . '">*</abbr>';
         } else {
             $required = '';
@@ -120,7 +119,9 @@ class WC_Korea_Pack_options {
 
         if ( ( ! empty( $args['clear'] ) ) ) $after = '<div class="clear"></div>'; else $after = '';
         
-        $field = '<p class="form-row ' . esc_attr( implode( ' ', $args['class'] ) ) .'" id="' . esc_attr( $key ) . '_field">
+        $field = '
+        <style type="text/css">.woocommerce-account .form-row .chzn-container-single .chzn-search input {line-height: 13px;width: 100%!important;}</style>
+        <p class="form-row ' . esc_attr( implode( ' ', $args['class'] ) ) .'" id="' . esc_attr( $key ) . '_field">
                     <label for="' . esc_attr( $key ) . '" class="' . implode( ' ', $args['label_class'] ) .'">' . $args['label']. $required  . '</label>
                     <select name="' . esc_attr( $key ) . '" id="' . esc_attr( $key ) . '" class="" ' . implode( ' ', $custom_attributes ) . '>';
         if( $value != '') {
@@ -138,7 +139,7 @@ class WC_Korea_Pack_options {
     function scripts(){
         global $woocommerce;
         if( get_option('woocommerce_wckp_zip_code') == 'yes' ){
-            if ( is_checkout() ) {
+            if ( is_checkout() || is_account_page() ) {
                 
                 $frontend_script_path   = $woocommerce->plugin_url() . '/assets/js/frontend/';
                 $suffix                 = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
