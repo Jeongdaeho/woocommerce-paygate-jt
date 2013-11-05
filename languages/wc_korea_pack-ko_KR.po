@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wc_korea_pack\n"
-"POT-Creation-Date: 2013-10-28 15:19+0900\n"
-"PO-Revision-Date: 2013-10-28 15:20+0900\n"
+"POT-Creation-Date: 2013-11-05 17:38+0900\n"
+"PO-Revision-Date: 2013-11-05 17:39+0900\n"
 "Last-Translator: 정대호 <ohead@studio-jt.co.kr>\n"
 "Language-Team: studio-jt <support@studio-jt.co.kr>\n"
 "MIME-Version: 1.0\n"
@@ -127,21 +127,21 @@ msgstr ""
 msgid "결제가 실패했습니다. 다시 이용해 주세요"
 msgstr ""
 
-#: ../gateway/paygate/paygate.php:185
+#: ../gateway/paygate/paygate.php:180
 #, php-format
 msgid "Order %s"
 msgstr "주문 %s"
 
-#: ../gateway/paygate/paygate.php:218
+#: ../gateway/paygate/paygate.php:221
 msgid "결제"
 msgstr ""
 
-#: ../gateway/paygate/paygate.php:239 ../gateway/paygate/paygate.php:242
-#: ../gateway/paygate/paygate.php:254
+#: ../gateway/paygate/paygate.php:242 ../gateway/paygate/paygate.php:245
+#: ../gateway/paygate/paygate.php:257
 msgid "주문번호 검증 실패"
 msgstr ""
 
-#: ../gateway/paygate/paygate.php:314
+#: ../gateway/paygate/paygate.php:317
 msgid "비정상적인 결제 시도"
 msgstr ""
 
@@ -164,6 +164,48 @@ msgstr "결제 사용"
 #: ../gateway/paygate/templates/admin-woocommerce-paygate.php:16
 msgid "This Gateway does not support your store currency."
 msgstr "이 결제는 상점의 통화를 지원하지 않습니다."
+
+#: ../includes/options.php:6
+msgid "WooCommerce Paygate JT"
+msgstr ""
+
+#: ../includes/options.php:8
+msgid "하나의이름"
+msgstr ""
+
+#: ../includes/options.php:9
+msgid "결제 정보 입력시 이름에 하나의 입력 값만을 적용합니다."
+msgstr ""
+
+#: ../includes/options.php:15
+msgid "회사이름삭제"
+msgstr ""
+
+#: ../includes/options.php:16
+msgid "회사 이름을 사용하지 않습니다."
+msgstr ""
+
+#: ../includes/options.php:22
+msgid "우편번호검색"
+msgstr ""
+
+#: ../includes/options.php:23
+msgid "한국 우편번호 검색을 사용."
+msgstr ""
+
+#: ../includes/options.php:26
+msgid ""
+"사용할 경우 도시 이름, 국가 선택 입력박스를 제거하며, 주소 입력 순서가 변경됩"
+"니다."
+msgstr ""
+
+#: ../includes/options.php:52
+msgid "Paygate JT"
+msgstr ""
+
+#: ../includes/options.php:130
+msgid "지역명을 입력하세요"
+msgstr ""
 
 #: ../shipping/condition-on-free.php:11 ../shipping/condition-on-free.php:12
 #: ../shipping/condition-on-free.php:54

@@ -85,15 +85,25 @@ Installation 설명 추가
 * 카드 결제의 추가 지원 화폐를 설정할 수 있습니다. 
 
 ex)
+
 function your_function( $card_args ){
+
     // woocommerce 에 정의된 화폐이름이 EUR 일경우
+    
     $card_args['EUR'] = array(
+    
         'goodcurrency' => 'EUR',    //paygate 에서 대응 되는 화폐의 코드값
+	
         'langcode' => 'US'          //paygate 에서 지원하는 언어 코드값
+	
     );
+    
     return $card_args;
+    
 }
+
 //필터 추가
+
 add_filter('wc_korea_pack_paygate_currencies_args_card', 'your_function');
 
 ### 0.5 
@@ -104,3 +114,7 @@ add_filter('wc_korea_pack_paygate_currencies_args_card', 'your_function');
 
 ### 0.5.1 
 * 우커머스 마이페이지 우편번호 검색 추가
+
+### 0.5.2 
+* 우커머스 청구주소 우편번호 검색 추가
+* 우편번호 검색 딜레이를 0.7초로 변경

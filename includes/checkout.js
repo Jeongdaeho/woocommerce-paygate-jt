@@ -1,9 +1,9 @@
 jQuery(document).ready(function($) {
-    $('select#billing_postcode').ajaxChosen({
+    $('select#billing_postcode, select#shipping_postcode').ajaxChosen({
         method:         'GET',
         url:            woocommerce_params.ajax_url,
         dataType:       'json',
-        afterTypeDelay: 500,
+        afterTypeDelay: 700,
         minTermLength:  2,
         data:       {
             action:     'wckp_json_search_zipcode',
@@ -28,6 +28,18 @@ jQuery(document).ready(function($) {
         }
         
         $('#billing_address_1').val( arr_addr.join(' ') );
+
+    });
+
+    $('select#shipping_postcode').change(function (){
+        
+        var arr_addr = $( 'select#shipping_postcode option:selected' ).text().split(" ");
+        arr_addr.shift();
+        if( arr_addr[arr_addr.length -1].search('~') > 0 ){
+            arr_addr.pop();
+        }
+        
+        $('#shipping_address_1').val( arr_addr.join(' ') );
 
     });
     
