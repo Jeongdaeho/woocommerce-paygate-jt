@@ -45,6 +45,8 @@ class WC_Korea_Pack_options {
         add_action('wp_ajax_wckp_json_search_zipcode', array($this, 'search_zipcode') );
         // 우편 번호 검색
         add_action('wp_ajax_nopriv_wckp_json_search_zipcode', array($this, 'search_zipcode') );
+        // 주소 출력 
+        add_filter('woocommerce_my_account_my_address_formatted_address', array($this, 'my_address_formatted_address') );
     }
     
     //우커머스 관리자 탭추가
@@ -79,10 +81,19 @@ class WC_Korea_Pack_options {
         if( get_option('woocommerce_wckp_zip_code') == 'yes' ){
             unset($fields['city']);
             unset($fields['country']);
+            unset($fields['state']);
             
             $fields['postcode']['class'] = array('form-row-wide');
             $fields['postcode']['type'] = 'zip_code';
             $fields['postcode']['clear'] = false;
+            
+            $fields['address_1']['placeholder'] = '동(읍/면) 까지의 주소';
+            $fields['address_1']['label'] = '동(읍/면) 까지의 주소';
+            
+            $fields['address_2']['placeholder'] = '동(읍/면) 이후의 주소';
+            $fields['address_2']['label'] = '동(읍/면) 이후의 주소';
+            $fields['address_2']['required'] = true;
+            
             
             foreach($fields as $key => $val ){
                 
@@ -94,9 +105,30 @@ class WC_Korea_Pack_options {
                 
                 $new_fields[$key] = $val;
             }
+            $fields = $new_fields;
         }
         
-        return $new_fields;        
+        return $fields;        
+    }
+
+    function my_address_formatted_address($fields){
+        $new_fields = array();
+        
+        if( get_option('woocommerce_wckp_namefix') == 'yes' ){
+            unset($fields['last_name']);
+        }
+
+        if( get_option('woocommerce_wckp_companyfix') == 'yes' ){
+            unset($fields['company']);
+        }
+
+        if( get_option('woocommerce_wckp_zip_code') == 'yes' ){
+            unset($fields['city']);
+            unset($fields['country']);
+            unset($fields['state']);
+        }
+        
+        return $fields;        
     }
 
     function zip_code_field( $blank, $key, $args, $value ) {
