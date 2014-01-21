@@ -26,6 +26,23 @@ class WC_Korea_Pack_options {
                 'desc_tip'  =>  __( '사용할 경우 도시 이름, 국가 선택 입력박스를 제거하며, 주소 입력 순서가 변경됩니다.', 'wc_korea_pack' ),
                 'type'      => 'checkbox'
             ),
+            array(
+                'title'     => __( '우편번호검색형식', 'wc_korea_pack' ),
+                'desc'      => __( '지번 기반 검색은 업데이트가 중단 됩니다. <br />도로명기반 사용시 반드시 테스트가 필요합니다.<br /> 일부 사이트에서 CSS 수정이 필요 할 수 있습니다.', 'wc_korea_pack' ),
+                'id'        => 'woocommerce_wckp_search_zip_code_type',
+                'options'   => array('road' => '도로명기반', 'jibun' => '지번기반'),
+                'default'   => 'jibun',
+                'type'      => 'radio'
+            ),
+            array(
+                'title'     => __( '디버그 모드', 'wc_korea_pack' ),
+                'desc'      => __( 'paygate JT의 디버그 모드 적용', 'wc_korea_pack' ),
+                'id'        => 'woocommerce_wckp_mode_debug',
+                'default'   => 'no',
+                'desc_tip'  =>  __( '활성화시 woocommerce의 로그를 사용합니다.<br /> woocommerce의 로그는 woocommerce/logs/ 디렉토리에 txt 파일 형태로 저장 됩니다.', 'wc_korea_pack' ),
+                'type'      => 'checkbox'
+            ),
+
             array( 'type' => 'sectionend', 'id' => 'wckp_options')
         );
         
@@ -40,7 +57,9 @@ class WC_Korea_Pack_options {
         // 우편 번호 스크립트        
         add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
         // 우편 번호 필드 출력
+        add_filter('woocommerce_form_field_search_postcode', array( $this, 'search_postcode_field'), 10, 4);
         add_filter('woocommerce_form_field_zip_code', array( $this, 'zip_code_field'), 10, 4);
+
         // 우편 번호 검색
         add_action('wp_ajax_wckp_json_search_zipcode', array($this, 'search_zipcode') );
         // 우편 번호 검색
@@ -83,13 +102,23 @@ class WC_Korea_Pack_options {
             unset($fields['country']);
             unset($fields['state']);
             
+            $zip_code_type = get_option('woocommerce_wckp_search_zip_code_type');
+
+            if( $zip_code_type == 'road' ){
+                $fields['search_postcode']['placeholder'] = '엔터를 누르면 검색됩니다.';
+                $fields['search_postcode']['label'] = '우편번호 검색';
+                $fields['search_postcode']['class'] = array('form-row-wide');
+                $fields['search_postcode']['type'] = 'search_postcode';
+                $fields['search_postcode']['clear'] = false;
+            } else {
+                $fields['postcode']['type'] = 'zip_code';
+            }
             $fields['postcode']['class'] = array('form-row-wide');
-            $fields['postcode']['type'] = 'zip_code';
             $fields['postcode']['clear'] = false;
             
             $fields['address_1']['placeholder'] = '동(읍/면) 까지의 주소';
             $fields['address_1']['label'] = '동(읍/면) 까지의 주소';
-            
+
             $fields['address_2']['placeholder'] = '동(읍/면) 이후의 주소';
             $fields['address_2']['label'] = '동(읍/면) 이후의 주소';
             $fields['address_2']['required'] = true;
@@ -98,7 +127,11 @@ class WC_Korea_Pack_options {
             foreach($fields as $key => $val ){
                 
                 if( $key == 'address_1'){
-                    $new_fields['postcode'] = $fields['postcode'];
+                    if( $zip_code_type == 'road' ){
+                        $new_fields['search_postcode'] = $fields['search_postcode'];
+                    }
+                    $new_fields['postcode'] = $fields['postcode'];    
+
                 } else if( $key == 'postcode' ){
                     continue;
                 }
@@ -131,6 +164,7 @@ class WC_Korea_Pack_options {
         return $fields;        
     }
 
+    //지번 기반 우편번호
     function zip_code_field( $blank, $key, $args, $value ) {
         if ( $args['required'] ) {
             $required = ' <abbr class="required" title="' . esc_attr__( 'required', 'wc_korea_pack'  ) . '">*</abbr>';
@@ -167,20 +201,47 @@ class WC_Korea_Pack_options {
         echo $field;
         
     }
+
+    //도로명 기반 우편번
+    function search_postcode_field( $blank, $key, $args, $value ) {
+        // autocomplete="off">
+        // Custom attribute handling
+        $custom_attributes = array();
+
+        if ( ! empty( $args['custom_attributes'] ) && is_array( $args['custom_attributes'] ) )
+            foreach ( $args['custom_attributes'] as $attribute => $attribute_value )
+                $custom_attributes[] = esc_attr( $attribute ) . '="' . esc_attr( $attribute_value ) . '"';
+
+        if ( ( ! empty( $args['clear'] ) ) ) $after = '<div class="clear"></div>'; else $after = '';
+        
+        $field = '<p class="form-row ' . esc_attr( implode( ' ', $args['class'] ) ) .'" id="' . esc_attr( $key ) . '_field">';
+
+        if ( $args['label'] )
+            $field .= '<label for="' . esc_attr( $key ) . '" class="' . implode( ' ', $args['label_class'] ) .'">' . $args['label'] . $required . '<span class="road_api_link">(주소검색 API 제공 : <a href="http://xenosi.de/roadzip" target="_blank">송효진</a>)</span>';
+
+        $field .= '<input type="text" class="input-text XenoFindZip ui-autocomplete-input" id="' . esc_attr( $key ) . '" placeholder="' . $args['placeholder'] . '" '.$args['maxlength'] .' ' . implode( ' ', $custom_attributes ) . ' />
+            <span class="XenoFindZipLabel"></span></p></label>' . $after;
+        echo $field;
+    }
     
     function scripts(){
         global $woocommerce;
         if( get_option('woocommerce_wckp_zip_code') == 'yes' ){
             if ( is_checkout() || is_account_page() ) {
+
+                $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
                 
-                $frontend_script_path   = $woocommerce->plugin_url() . '/assets/js/frontend/';
-                $suffix                 = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-                
-                wp_enqueue_style( 'woocommerce_chosen_styles', $woocommerce->plugin_url() . '/assets/css/chosen.css' );
-                
-                wp_enqueue_script( 'wc-chosen', $frontend_script_path . 'chosen-frontend' . $suffix . '.js', array( 'chosen' ), $woocommerce->version, true );
-                wp_register_script( 'ajax-chosen', $woocommerce->plugin_url() . '/assets/js/chosen/ajax-chosen.jquery'.$suffix.'.js', array('jquery', 'chosen'), $woocommerce->version, true );
-                wp_enqueue_script( 'wckp-checkout', plugin_dir_url ( __FILE__ ) . 'checkout.js', array( 'jquery', 'woocommerce', 'chosen', 'ajax-chosen' ), wc_korea_pack()->version, true );
+                if( get_option('woocommerce_wckp_search_zip_code_type') == 'road' ){
+                    wp_enqueue_style( 'wckp-roadzip-css', plugin_dir_url ( __FILE__ ) . 'checkout.css', array('wp-jquery-ui-dialog') );
+                    wp_enqueue_script( 'wckp-roadzip', '//xenosi.de/load/roadzip/roadzip.min.js', array( 'jquery', 'jquery-ui-dialog' ), wc_korea_pack()->version, true );
+                    wp_enqueue_script( 'wckp-checkout', plugin_dir_url ( __FILE__ ) . 'checkout.js', array( 'jquery', 'jquery-ui-dialog' ), wc_korea_pack()->version, true );
+                } else {
+                    $frontend_script_path   = $woocommerce->plugin_url() . '/assets/js/frontend/';
+                    wp_enqueue_style( 'woocommerce_chosen_styles', $woocommerce->plugin_url() . '/assets/css/chosen.css' );
+                    wp_enqueue_script( 'wc-chosen', $frontend_script_path . 'chosen-frontend' . $suffix . '.js', array( 'chosen' ), $woocommerce->version, true );
+                    wp_register_script( 'ajax-chosen', $woocommerce->plugin_url() . '/assets/js/chosen/ajax-chosen.jquery'.$suffix.'.js', array('jquery', 'chosen'), $woocommerce->version, true );
+                    wp_enqueue_script( 'wckp-checkout', plugin_dir_url ( __FILE__ ) . 'checkout.js', array( 'jquery', 'woocommerce', 'chosen', 'ajax-chosen' ), wc_korea_pack()->version, true );
+                }
             }
         }
     }

@@ -2,7 +2,7 @@
 Contributors: Jeong daeho
 Tags: woocommerce, korea, paygate, paymentgateway
 Requires at least: 3.5
-Tested up to: 3.6
+Tested up to: 3.8
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -100,3 +100,8 @@ add_filter('wc_korea_pack_paygate_currencies_args_card', 'your_function');
 
 * 한국형 우편번호 검색의 방식이 차기 버젼에서 변경되게 됩니다 (2014년 1월 1일 부터 도로명 주소 전면시행 관련) 
  현재 존재하는 ie7 관련 수정사항은 차기 버젼에서 검색 방식 변경과 함께 적용되기에 연기 되었습니다.
+
+= 0.6.0 =
+* 관리자 선택 옵션에 우편번호 검색형식과 디버그 모드가 추가 되었습니다.
+* 도로명기반 우편번호 검색 기능이 추가되었습니다. API 사용을 허가해주신 <a href="http://xenosi.de/roadzip" target="_blank">송효진님</a>께 감사드립니다.
+* 해쉬값 검증로직이 변경 혹은 추가 되었으며 몇가지 오류가 수정 되었습니다.
