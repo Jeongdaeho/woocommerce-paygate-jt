@@ -8,7 +8,7 @@ function getPGIOresult() {
 	  	} else {
 			//거래 실패 처리
 			alert( replyMsg + "["+ replycode + "]" + wckp.message_failure );
-	    	window.location=woocommerce_params.cart_url;
+	    	window.location=wckp.cart_url;
 		}
 }
 
