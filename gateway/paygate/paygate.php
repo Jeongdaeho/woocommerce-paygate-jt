@@ -131,6 +131,7 @@ class WC_Gateway_PayGate extends WC_Payment_Gateway {
 			wp_enqueue_script( 'wc_paygate_main', WCKP_PAYGATE_PLUGIN_URL.'assets/paygate.js', array('jquery'), wc_korea_pack()->version, true);
 			wp_localize_script( 'wc_paygate_main', 'wckp', array(
 				'thanks_url' => $thanks_url,
+				'cart_url' => get_permalink(woocommerce_get_page_id( 'cart' )),
 				'message_failure' => __('결제가 실패했습니다. 다시 이용해 주세요', 'wc_korea_pack')
 			) ); 	
 			wp_register_style( 'wc_paygate_main', WCKP_PAYGATE_PLUGIN_URL.'assets/style.css', '', wc_korea_pack()->version);
