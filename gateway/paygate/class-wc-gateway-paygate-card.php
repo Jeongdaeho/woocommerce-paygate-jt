@@ -22,6 +22,25 @@ class WC_Gateway_PayGate_card extends WC_Gateway_PayGate {
 		$this->method_title 		= 'PayGate [Card]';
 		$this->method_description	= 'paygate_card';
         $this->notify_url           = str_replace('https:', 'http:', add_query_arg( 'wc-api', strtolower(__CLASS__), home_url( '/' ) ) ) ;
+        $this->card_list    = array(
+                                '310' => '비씨(BC)카드', 
+                                '410' => '신한(LG)카드', 
+                                '510' => '삼성카드', 
+                                '610' => '현대카드', 
+                                '110' => '국민(KB)카드', 
+                                '710' => '롯데카드', 
+                                '210' => '외환카드',
+                                '912' => '농협(NH)카드',
+                                '923' => '씨티카드',
+                                '916' => '하나SK카드',
+                                '913' => '우리카드',
+                                '918' => '광주카드',
+                                '920' => '전북카드',
+                                '925' => '수협카드',
+                                '610' => '신협(현대)카드',
+                                '921' => '제주카드',
+                                '511' => '삼성올앳카드',
+                            );
 
         // Payment listener/API hook
         add_action( 'woocommerce_api_'.strtolower(__CLASS__), array( $this, 'process_payment_response' ) );
@@ -62,6 +81,14 @@ class WC_Gateway_PayGate_card extends WC_Gateway_PayGate {
 				'default' => __('Card Payment', 'wc_korea_pack'),
 				'desc_tip' => true,
 			),
+			'openpay_card_list' => array(
+                'title'     => __( '오픈결제 카드', 'wc_korea_pack' ),
+                'description'      => __( 'ie를 제외한 브라우져에서 결제 가능한 카드 설정(paygate 공지사항 참조)', 'wc_korea_pack' ),
+                'options'   => $this->card_list,
+                'default'   => '',
+                'desc_tip'  =>  __( '', 'wc_korea_pack' ),
+                'type'      => 'multiselect'
+            ),
 		));
 	}
 
@@ -75,7 +102,7 @@ class WC_Gateway_PayGate_card extends WC_Gateway_PayGate {
     }
 	
     public function get_paygate_args( $order ) {
-        
+        global $is_winIE;
 		$args = array(
             'goodcurrency'      => get_woocommerce_currency(),
             'langcode'          => '',
@@ -88,6 +115,12 @@ class WC_Gateway_PayGate_card extends WC_Gateway_PayGate {
 			'cardnumber' 		=> '',
 			'cardauthcode' 		=> '',
 		);
+        $openpay_card_list = $this->get_option('openpay_card_list');
+        if( !$is_winIE ){
+            if( is_array($openpay_card_list) && count($openpay_card_list) > 0 ){
+                    $args['cardtype'] = $openpay_card_list;    
+            }
+        }
 
         $args = apply_filters('wc_korea_pack_paygate_card_args', $args, 1);
 		

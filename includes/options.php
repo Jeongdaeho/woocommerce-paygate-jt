@@ -225,7 +225,7 @@ class WC_Korea_Pack_options {
     }
     
     function scripts(){
-        global $woocommerce;
+        global $woocommerce, $wp_scripts;
         if( get_option('woocommerce_wckp_zip_code') == 'yes' ){
             if ( is_checkout() || is_account_page() ) {
 
@@ -233,7 +233,9 @@ class WC_Korea_Pack_options {
                 
                 if( get_option('woocommerce_wckp_search_zip_code_type') == 'road' ){
                     wp_enqueue_style( 'wckp-roadzip-css', plugin_dir_url ( __FILE__ ) . 'checkout.css', array('wp-jquery-ui-dialog') );
-                    wp_enqueue_script( 'wckp-roadzip', '//xenosi.de/load/roadzip/roadzip.min.js', array( 'jquery', 'jquery-ui-dialog' ), wc_korea_pack()->version, true );
+                    $jquery_version = isset( $wp_scripts->registered['jquery-ui-core']->ver ) ? $wp_scripts->registered['jquery-ui-core']->ver : '1.9.2';
+                    wp_enqueue_style( 'jquery-ui-style', '//ajax.googleapis.com/ajax/libs/jqueryui/' . $jquery_version . '/themes/smoothness/jquery-ui.css' );
+                    wp_enqueue_script( 'wckp-roadzip', '//xenosi.de/load/roadzip/roadzip.min.js', array( 'jquery', 'jquery-ui-dialog', 'jquery-ui-autocomplete' ), wc_korea_pack()->version, true );
                     wp_enqueue_script( 'wckp-checkout', plugin_dir_url ( __FILE__ ) . 'checkout.js', array( 'jquery', 'jquery-ui-dialog' ), wc_korea_pack()->version, true );
                 } else {
                     $frontend_script_path   = $woocommerce->plugin_url() . '/assets/js/frontend/';

@@ -42,7 +42,8 @@ class WC_Gateway_PayGate extends WC_Payment_Gateway {
         
 		// Logs
 		if ( 'yes' == $this->debug )
-			$this->log = $woocommerce->logger();
+			//$this->log = $woocommerce->logger();
+			$this->log = new WC_LOGGER();
 
 		if ( ! $this->is_valid_for_use() ) $this->enabled = false;
 
@@ -107,12 +108,13 @@ class WC_Gateway_PayGate extends WC_Payment_Gateway {
 
 	/* *
 	 * 	script
+	 *  Inject the paygate javascript into the page.
 	 * */
 
 	public function script() {	    
 	    if( WC_Gateway_PayGate::$is_script_already === true ) return;
         
-		if ($this->enabled == 'yes' && is_page( woocommerce_get_page_id( 'pay' ) ) == true) {
+        if ($this->enabled == 'yes' ) {
 
             WC_Gateway_PayGate::$is_script_already = true;
             
@@ -121,7 +123,7 @@ class WC_Gateway_PayGate extends WC_Payment_Gateway {
             
             $order = new WC_Order( $order_id );
             
-            $thanks_url = get_permalink( woocommerce_get_page_id( 'thanks' ) );
+            $thanks_url = get_permalink( $order->get_checkout_order_received_url() );
             $thanks_url = add_query_arg( 'key', $order->order_key, add_query_arg( 'order', $order->id, $thanks_url ) );
             
 			//wp_enqueue_script( 'wc_paygate_remote', 'https://api.paygate.net/ajax/common/OpenPayAPI.js',null, null,true);
@@ -161,7 +163,7 @@ class WC_Gateway_PayGate extends WC_Payment_Gateway {
 
 		return array(
 			'result' 	=> 'success',
-			'redirect'	=> add_query_arg('order', $order->id, add_query_arg( 'key', $order->order_key, get_permalink(woocommerce_get_page_id('pay' ))))
+			'redirect'	=> add_query_arg('order', $order->id, add_query_arg( 'key', $order->order_key, $order->get_checkout_order_received_url() ) )
 		);		
 	}
 
@@ -211,13 +213,21 @@ class WC_Gateway_PayGate extends WC_Payment_Gateway {
         $paygate_args_array = array();
 
         foreach( $paygate_args as $key => $value ) {
+            if( $key == 'cardtype' && is_array($value) && count($value) > 0 ){
+                $cardtype_options = array();
+                foreach( $value as $option_value ){
+                    $cardtype_options[] = '<option value="'.$option_value.'">'.$this->card_list[$option_value].'</option>';
+                }
+                $paygate_args_array[] = '<label for="'.$key.'">결제카드 </label><select name="'.$key.'">'.implode('',$cardtype_options).'</select>';
+            } else {
             $paygate_args_array[] = '<input type="hidden" name="'.esc_attr( $key ).'" id="'.esc_attr( $key ).'" value="'.esc_attr( $value ).'" />';
+            }
         }
 
         $notify_url= add_query_arg('order', $order->id, add_query_arg( 'key', $order->order_key, $this->notify_url ) );
         $output = '
             <div id="PGIOscreen" ></div>
-            <form method="post" name ="PGIOForm" id="PGIOForm" action="'.$notify_url.'">' .$woocommerce->nonce_field('process_payment_response', true, false). implode( '', $paygate_args_array) . '
+            <form method="post" name ="PGIOForm" id="PGIOForm" action="'.$notify_url.'">' . wp_nonce_field('process_payment_response', true, false). implode( '', $paygate_args_array) . '
             <a class="button alt" href="#" id="submit_paygate_payment_form">' . __( '결제', 'wc_korea_pack' ) . '</a>
             </form>
         ';

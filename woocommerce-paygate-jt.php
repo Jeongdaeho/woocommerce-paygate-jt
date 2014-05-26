@@ -3,7 +3,7 @@
  * Plugin Name: WooCommerce Paygate JT
  * Plugin URI: http://www.studio-jt.co.kr
  * Description: woocommerce paygate 결제모듈
- * Version: 0.6.0
+ * Version: 0.6.2
  * Author: 스튜디오 제이티 (support@studio-jt.co.kr)
  * Author URI: studio-jt.co.kr
  *
@@ -16,7 +16,7 @@ if ( !class_exists( 'WC_Korea_Pack' ) ) :
 
 class WC_Korea_Pack {
 
-    public $version = '0.5.3';
+    public $version = '0.6.2';
 
     private static $instance;
     //public $gateway_items = array( 'openxpay', 'paygate' );
@@ -41,7 +41,7 @@ class WC_Korea_Pack {
         
         //domain
         $this->domain           = 'wc_korea_pack';
-        //pluugins
+        //plugins
         $this->file             = __FILE__;
         $this->plugin_dir       = apply_filters( 'wc_korea_pack_plugin_dir_path',  plugin_dir_path( $this->file ) );
         $this->plugin_url       = apply_filters( 'wc_korea_pack_plugin_dir_url',   plugin_dir_url ( $this->file ) );

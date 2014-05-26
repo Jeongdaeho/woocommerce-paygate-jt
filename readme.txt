@@ -2,14 +2,14 @@
 Contributors: Jeong daeho
 Tags: woocommerce, korea, paygate, paymentgateway
 Requires at least: 3.5
-Tested up to: 3.8
+Tested up to: 3.9.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 
 == Description ==
 
-Woocommerce-paygate-jt 플러그인은 
+Woocommerce-paygate-jt 플러그인은
 
 쇼핑몰 플러그인인 Woocommerce에 추가되어 한국에서도 Paygate(PG)를 통해 결제를 할 수 있도록 합니다.
 
@@ -39,11 +39,11 @@ Woocommerce-paygate-jt 플러그인은
 
 플러그인을 설치순서
 
-1. 다운로드 받은 플러그인을 FTP를 통해 Plugins 폴더로 업로드 하거나, 워드프레스 관리자-> 플러그인 탭 에서 woocommerce-paygate-jt 검색후 설치 
+1. 다운로드 받은 플러그인을 FTP를 통해 Plugins 폴더로 업로드 하거나, 워드프레스 관리자-> 플러그인 탭 에서 woocommerce-paygate-jt 검색후 설치
 2. woocommerce-paygate-jt 활성화
-3. 좌측 메뉴 woocommerce 선택   
+3. 좌측 메뉴 woocommerce 선택
 4. 지불게이트웨이 탭 -> 활성화 시킬 결제 수단중 paygate 관련 결제를 활성화
-5. 활성화 시킨 결제 수단으로 이동 
+5. 활성화 시킨 결제 수단으로 이동
 5. paygate 와 계약된 내용을 입력, API 인증값의 경우 paygate 상점 관리자 페이지에서 변경가능(자세한 내용은 paygate 측에 문의)
 6. 배송 탭 이동 -> 활성화 시킬 배송 수단중 조건부 무료 선택(선택사항이며 꼭 해야하진 않습니다.)
 7. 조건부 무료텝 이동후 배송비와 무료 배송 최소금액을 입력
@@ -74,7 +74,7 @@ Woocommerce-paygate-jt 플러그인은
 * 관리자 템플렛 파일을 하나로 통합
 * 카드 결제의 지원 화폐를 기본 4가지로 구성 (KRW, USD, RMB, JPY)
 * 실시간 계좌이체 결제를 위한 상품명 정보의 특수문자 제거
-* 카드 결제의 추가 지원 화폐를 설정할 수 있습니다. 
+* 카드 결제의 추가 지원 화폐를 설정할 수 있습니다.
 
 add_filter('wc_korea_pack_paygate_currencies_args_card', 'your_function');
 
@@ -95,13 +95,18 @@ add_filter('wc_korea_pack_paygate_currencies_args_card', 'your_function');
 = 0.5.3 =
 * 관리자 패널에서 개별 옵션 선택시 제대로 동작하지 않는 버그 픽스
 * 한국형 우편번호 사용 설정후 마이페이지에서 주소 저장시 우커머스 기본 state 검증하는 버그 픽스
-* 한국형 우편번호 사용 설정시 주소 관련 input 값의 label 과 placeholder 가 변경됩니다.   
+* 한국형 우편번호 사용 설정시 주소 관련 input 값의 label 과 placeholder 가 변경됩니다.
 * 마이페이지 우편번호 출력을 위한 필터 추가
 
-* 한국형 우편번호 검색의 방식이 차기 버젼에서 변경되게 됩니다 (2014년 1월 1일 부터 도로명 주소 전면시행 관련) 
+* 한국형 우편번호 검색의 방식이 차기 버젼에서 변경되게 됩니다 (2014년 1월 1일 부터 도로명 주소 전면시행 관련)
  현재 존재하는 ie7 관련 수정사항은 차기 버젼에서 검색 방식 변경과 함께 적용되기에 연기 되었습니다.
 
 = 0.6.0 =
 * 관리자 선택 옵션에 우편번호 검색형식과 디버그 모드가 추가 되었습니다.
 * 도로명기반 우편번호 검색 기능이 추가되었습니다. API 사용을 허가해주신 <a href="http://xenosi.de/roadzip" target="_blank">송효진님</a>께 감사드립니다.
 * 해쉬값 검증로직이 변경 혹은 추가 되었으며 몇가지 오류가 수정 되었습니다.
+
+### 0.6.2
+* 오타 수정및 endpoint 관련 // Eric Kirkham(<a href="https://github.com/southerneer"  target="_blank">) thanks Eric Kirkham</a>
+* ie 이외의 브라우져에서 결제 가능 카드사 설정(<a href="https://km.paygate.net/pages/viewpage.action?pageId=7110856&focusedCommentId=7111142#comment-7111142">페이 게이트 공지 사항</a>)
+

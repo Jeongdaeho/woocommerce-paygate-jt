@@ -7,7 +7,7 @@ if ( !class_exists( 'WC_Shipping_Condition_On_free' ) ) :
 class WC_Shipping_Condition_On_free extends WC_Shipping_Method {
 	
 	public function __construct() {
-		$this->id                 = 'condition_on_free'; // Id for your shipping method. Should be uunique.
+		$this->id                 = 'condition_on_free'; // Id for your shipping method. Should be unique.
 		$this->method_title       = __( '조건부 무료' );  // Title shown in admin
 		$this->method_description = __( '조건부 무료' ); // Description shown in admin
  
