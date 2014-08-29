@@ -17,7 +17,7 @@ class WC_Gateway_PayGate_cup extends WC_Gateway_PayGate {
 	function __construct(){
 		
 		$this->id 					= 'paygate_cup';
-		$this->method 				= '105';
+		$this->method 				= '113';
 		$this->icon 				= '';
 		$this->method_title 		= 'PayGate [cup]';
 		$this->method_description	= 'paygate_cup';
