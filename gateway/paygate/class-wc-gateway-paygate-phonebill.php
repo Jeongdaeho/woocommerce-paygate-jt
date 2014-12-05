@@ -12,11 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  */
 
  if ( !class_exists( 'WC_Gateway_PayGate_phonebill' ) ) :
-	 
+
 class WC_Gateway_PayGate_phonebill extends WC_Gateway_PayGate {
-	
+
 	function __construct(){
-		
+
 		$this->id 					= 'paygate_phonebill';
 		$this->method 				= '802';
 		$this->icon 				= '';
@@ -27,13 +27,13 @@ class WC_Gateway_PayGate_phonebill extends WC_Gateway_PayGate {
 
         // Payment listener/API hook
         add_action( 'woocommerce_api_'.strtolower(__CLASS__), array( $this, 'process_payment_response' ) );
-        
+
 		parent::__construct();
 	}
 
 	public function init_form_fields() {
 		parent::init_form_fields();
-		
+
 		$this->form_fields = array_merge( $this->form_fields, array(
 			'title' => array(
 				'title' => __('Title', 'wc_korea_pack'),
@@ -50,10 +50,10 @@ class WC_Gateway_PayGate_phonebill extends WC_Gateway_PayGate {
         if ( !in_array( get_woocommerce_currency(), apply_filters( 'wc_korea_pack_supported_currencies_mobile', $this->supported_currencies ) ) ) {
             return false;
         }
-        
+
         return true;
     }
-	
+
     public function get_paygate_args( $order ) {
     		$args = array(
 			'goodcurrency'		=> 'WON',
@@ -63,7 +63,7 @@ class WC_Gateway_PayGate_phonebill extends WC_Gateway_PayGate {
 			'cardownernumber' 	=> '',
 		);
 
-		
+
 		return $args;
 	}
 }

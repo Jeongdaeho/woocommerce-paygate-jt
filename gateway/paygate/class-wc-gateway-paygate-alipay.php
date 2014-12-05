@@ -21,7 +21,7 @@ class WC_Gateway_PayGate_alipay extends WC_Gateway_PayGate {
 		$this->icon 				= '';
 		$this->method_title 		= 'PayGate [alipay]';
 		$this->method_description	= 'paygate_alipay';
-        $this->supported_currencies = array('RMB');
+        $this->supported_currencies = array('RMB', 'USD', 'KRW', 'JPY');
         $this->notify_url           = str_replace('https:', 'http:', add_query_arg( 'wc-api', strtolower(__CLASS__), home_url( '/' ) ) ) ;
 
         // Payment listener/API hook
@@ -54,8 +54,11 @@ class WC_Gateway_PayGate_alipay extends WC_Gateway_PayGate {
     }
     
 	public function get_paygate_args( $order ) {
+        $currency = $order->get_order_currency();
+        $goodCurrencyMap = array('USD' => 'USD', 'RMB' => 'CNY', 'KRW' => 'WON', 'JPY' => 'JPY');
+        $goodcurrency = $goodCurrencyMap[$currency];
   		$args = array(
-			'goodcurrency'           => 'CNY',
+			'goodcurrency'           => $goodcurrency,
 			'langcode'               => 'CN',
 			'receipttoname'          => '',
 			'cardquota'              => '',

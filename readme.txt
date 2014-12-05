@@ -2,7 +2,7 @@
 Contributors: Jeong daeho
 Tags: woocommerce, korea, paygate, paymentgateway
 Requires at least: 3.5
-Tested up to: 3.9.1
+Tested up to: 4.0.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -30,6 +30,12 @@ Woocommerce-paygate-jt 플러그인은
 
 제작된 플러그인이 한국 워드프레스 발전에 도움이 되길 기원합니다.   by <a href="http://studio-jt.co.kr" target="_blank">STUDIO-JT</a>
 
+!!! 부탁. !!!
+일부 기능만을 분리 하여 유료 판매하는 몰지각한 행위는 하지 않길 부탁해요. 확!마! 여기저기 확!마!그냥막!
+오류는 수정하고 유료 판매를 하시면 소스 복사 의심은 하지 않을텐데 오류까지 그대로 가져가는건 좀...
+
+
+
 = GET INVOLVED =
 
 [woocommerce-paygate-jt GitHub Repository](https://github.com/Jeongdaeho/woocommerce-paygate-jt).
@@ -45,9 +51,8 @@ Woocommerce-paygate-jt 플러그인은
 4. 지불게이트웨이 탭 -> 활성화 시킬 결제 수단중 paygate 관련 결제를 활성화
 5. 활성화 시킨 결제 수단으로 이동
 5. paygate 와 계약된 내용을 입력, API 인증값의 경우 paygate 상점 관리자 페이지에서 변경가능(자세한 내용은 paygate 측에 문의)
-6. 배송 탭 이동 -> 활성화 시킬 배송 수단중 조건부 무료 선택(선택사항이며 꼭 해야하진 않습니다.)
-7. 조건부 무료텝 이동후 배송비와 무료 배송 최소금액을 입력
-8. woocommerce 결제 테스트 및 사용
+6. 조건부 무료텝 이동후 배송비와 무료 배송 최소금액을 입력
+7. woocommerce 결제 테스트 및 사용
 
 == Screenshots ==
 
@@ -58,12 +63,38 @@ Woocommerce-paygate-jt 플러그인은
 
 == Changelog ==
 
-= 0.3.0 =
-* 배송 클레스 추가
+= 0.6.4 =
+* 주소 검색 방식이 다음 API 이용 방식으로 변경 되었습니다.
 
-= 0.3.1 =
-*스크린 샷 추가
-*Installation 설명 추가
+= 0.6.2 =
+* 오타 수정및 endpoint 관련 // Eric Kirkham(<a href="https://github.com/southerneer"  target="_blank">) thanks Eric Kirkham</a>
+* ie 이외의 브라우져에서 결제 가능 카드사 설정(<a href="https://km.paygate.net/pages/viewpage.action?pageId=7110856&focusedCommentId=7111142#comment-7111142">페이 게이트 공지 사항</a>)
+
+= 0.6.0 =
+* 관리자 선택 옵션에 우편번호 검색형식과 디버그 모드가 추가 되었습니다.
+* 도로명기반 우편번호 검색 기능이 추가되었습니다. API 사용을 허가해주신 <a href="http://xenosi.de/roadzip" target="_blank">송효진님</a>께 감사드립니다.
+* 해쉬값 검증로직이 변경 혹은 추가 되었으며 몇가지 오류가 수정 되었습니다.
+
+= 0.5.3 =
+* 관리자 패널에서 개별 옵션 선택시 제대로 동작하지 않는 버그 픽스
+* 한국형 우편번호 사용 설정후 마이페이지에서 주소 저장시 우커머스 기본 state 검증하는 버그 픽스
+* 한국형 우편번호 사용 설정시 주소 관련 input 값의 label 과 placeholder 가 변경됩니다.
+* 마이페이지 우편번호 출력을 위한 필터 추가
+
+* 한국형 우편번호 검색의 방식이 차기 버젼에서 변경되게 됩니다 (2014년 1월 1일 부터 도로명 주소 전면시행 관련)
+ 현재 존재하는 ie7 관련 수정사항은 차기 버젼에서 검색 방식 변경과 함께 적용되기에 연기 되었습니다.
+
+= 0.5.2 =
+* 청구주소 우편번호 검색 추가
+* 우편번호 검색 딜레이를 0.7초로 변경
+
+= 0.5.1 =
+* 우커머스 마이페이지 우편번호 검색 추가
+= 0.5 =
+* 관리자 패널이 추가 되었습니다. 관리자 패널은 우커머스 설정 페이지에 탭형식으로 추가 되었습니다.
+* 이제 회사명과 국가 코드를 관리자 패널에서 활성화, 비활성화 할 수 있습니다.
+* 한국 우편 번호 검색을 지원합니다. 관리자 패널에서 활성화, 비활성화 할 수 있습니다.
+* 한국 우편 번호 db 가 추가 되었습니다. 우편번호는 txt 파일형태로 제공됩니다. (2013.10.08일자 우체국 제공DB    가공 by studio-jt)
 
 = 0.4 =
 * 설정관련 변수명이 바뀌었기 때문에 기존 설정과 호환이 되지 않습니다. 설정값을 다시 입력 해주세요
@@ -78,35 +109,10 @@ Woocommerce-paygate-jt 플러그인은
 
 add_filter('wc_korea_pack_paygate_currencies_args_card', 'your_function');
 
+= 0.3.1 =
+*스크린 샷 추가
+*Installation 설명 추가
 
-= 0.5 =
-* 관리자 패널이 추가 되었습니다. 관리자 패널은 우커머스 설정 페이지에 탭형식으로 추가 되었습니다.
-* 이제 회사명과 국가 코드를 관리자 패널에서 활성화, 비활성화 할 수 있습니다.
-* 한국 우편 번호 검색을 지원합니다. 관리자 패널에서 활성화, 비활성화 할 수 있습니다.
-* 한국 우편 번호 db 가 추가 되었습니다. 우편번호는 txt 파일형태로 제공됩니다. (2013.10.08일자 우체국 제공DB    가공 by studio-jt)
-
-= 0.5.1 =
-* 우커머스 마이페이지 우편번호 검색 추가
-
-= 0.5.2 =
-* 청구주소 우편번호 검색 추가
-* 우편번호 검색 딜레이를 0.7초로 변경
-
-= 0.5.3 =
-* 관리자 패널에서 개별 옵션 선택시 제대로 동작하지 않는 버그 픽스
-* 한국형 우편번호 사용 설정후 마이페이지에서 주소 저장시 우커머스 기본 state 검증하는 버그 픽스
-* 한국형 우편번호 사용 설정시 주소 관련 input 값의 label 과 placeholder 가 변경됩니다.
-* 마이페이지 우편번호 출력을 위한 필터 추가
-
-* 한국형 우편번호 검색의 방식이 차기 버젼에서 변경되게 됩니다 (2014년 1월 1일 부터 도로명 주소 전면시행 관련)
- 현재 존재하는 ie7 관련 수정사항은 차기 버젼에서 검색 방식 변경과 함께 적용되기에 연기 되었습니다.
-
-= 0.6.0 =
-* 관리자 선택 옵션에 우편번호 검색형식과 디버그 모드가 추가 되었습니다.
-* 도로명기반 우편번호 검색 기능이 추가되었습니다. API 사용을 허가해주신 <a href="http://xenosi.de/roadzip" target="_blank">송효진님</a>께 감사드립니다.
-* 해쉬값 검증로직이 변경 혹은 추가 되었으며 몇가지 오류가 수정 되었습니다.
-
-### 0.6.2
-* 오타 수정및 endpoint 관련 // Eric Kirkham(<a href="https://github.com/southerneer"  target="_blank">) thanks Eric Kirkham</a>
-* ie 이외의 브라우져에서 결제 가능 카드사 설정(<a href="https://km.paygate.net/pages/viewpage.action?pageId=7110856&focusedCommentId=7111142#comment-7111142">페이 게이트 공지 사항</a>)
+= 0.3.0 =
+* 배송 클레스 추가
 
